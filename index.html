@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Privy Login Modal Demo</title>
-  <script src="https://cdn.jsdelivr.net/npm/@privy-io/react-auth@2.21.4/dist/cjs/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@privy-io/web-sdk@latest"></script>
   <style>
     body { font-family: Arial, sans-serif; padding: 2rem; }
     #project-id { font-weight: bold; color: #0070f3; margin-bottom: 2rem; }
@@ -13,36 +13,25 @@
 <body>
   <div id="project-id"></div>
   <button id="login-btn">Login with Privy</button>
-
   <script>
-    // Array of project IDs (replace with your actual IDs)
     const projectIDs = [
-      "cmeejral900jajp0bcxzu5106",
-      "cmeek4xn401kal50b7mxnxlqu"
+      "proj_abc123",
+      "proj_xyz789",
+      "proj_lmn456",
+      "proj_123qwe",
+      "proj_testid"
     ];
-
-    // Pick a random project ID on each visit
     const randomProjectID = projectIDs[Math.floor(Math.random() * projectIDs.length)];
     document.getElementById('project-id').innerText = "Current Project ID: " + randomProjectID;
 
-    // Privy modal initialization (using their UMD bundle if available)
-    function showPrivyLoginModal() {
-      if (window.PrivyAuthModal) {
-        window.PrivyAuthModal.open({
-          projectId: randomProjectID,
-          onSuccess: function(user) {
-            alert("Logged in! User: " + JSON.stringify(user));
-          },
-          onClose: function() {
-            alert("Privy modal closed.");
-          }
-        });
+    document.getElementById('login-btn').onclick = function() {
+      if (window.Privy) {
+        const privy = new window.Privy(randomProjectID);
+        privy.login();
       } else {
-        alert("Privy Login Modal SDK not loaded.");
+        alert("Privy SDK not loaded.");
       }
-    }
-
-    document.getElementById('login-btn').onclick = showPrivyLoginModal;
+    };
   </script>
 </body>
 </html>
